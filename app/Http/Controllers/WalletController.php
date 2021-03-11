@@ -82,7 +82,7 @@ class WalletController extends Controller
         );
 
         $input = $request->input('balance');
-        $wallet->balance = $wallet->balance + ($input * 100);
+        $wallet->balance = $wallet->balance + $input;
 
         DB::transaction(
             function () use ($wallet) {

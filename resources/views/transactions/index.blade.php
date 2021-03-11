@@ -21,7 +21,7 @@
                     <td class="py-3 px-6 text-left whitespace-nowrap">{{ $transaction->id }}</td>
                     <td class="py-3 px-6 text-center">
                         <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">{{ $transaction->type }}</span></td>
-                    <td class="py-3 px-6 text-center">${{ number_format($transaction->amount / 100, 2) }}</td>
+                    <td class="py-3 px-6 text-center">${{ $transaction->amount }}</td>
                     <td class="py-3 px-6 text-center">{{ $transaction->created_at }}</td>
                 </tr>
                 @empty

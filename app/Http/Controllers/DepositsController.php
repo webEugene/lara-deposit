@@ -62,9 +62,8 @@ class DepositsController extends Controller
         $input = $request->input('invested');
 
         if ($input >= '10' && $input <= '100') {
-            $wallet->balance = $wallet->balance - ($input * 100);
-            $input = $input * 100;
-            $percent = 20 * 100;
+            $wallet->balance = $wallet->balance - $input;
+            $percent = 20;
             //  Transaction
             DB::transaction(
                 function () use ($wallet, $input, $percent) {

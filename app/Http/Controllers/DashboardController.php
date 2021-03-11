@@ -23,7 +23,7 @@ class DashboardController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index(): Factory|View|Application
+    public function index()
     {
         return view('dashboard');
     }

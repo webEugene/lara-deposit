@@ -9,7 +9,7 @@
                         {{ $user->login }}
                     </h2>
                     <div class="flex">
-                        Кошелёк: <span class="ml-2 font-bold text-green-600">${{ number_format($user->wallet->balance / 100, 2) }}</span>
+                        Кошелёк: <span class="ml-2 font-bold text-green-600">${{ $user->wallet->balance }}</span>
                     </div>
                 </div>
                 <div class="w-1/2 justify-between">
