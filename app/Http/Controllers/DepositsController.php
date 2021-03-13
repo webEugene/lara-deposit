@@ -73,6 +73,7 @@ class DepositsController extends Controller
                             'wallet_id' => $wallet->id,
                             'invested' => $input,
                             'percent' => $percent,
+                            'duration' => 10,
                             'active' => 1
                         ]
                     );
@@ -87,7 +88,7 @@ class DepositsController extends Controller
                             'type' => 'create_deposit',
                             'wallet_id' => $wallet->id,
                             'deposit_id' => $lastCreatedDeposit->id,
-                            'amount' => $wallet->balance,
+                            'amount' => $input,
                         ]
                     );
                 }
@@ -96,6 +97,49 @@ class DepositsController extends Controller
             return redirect()->route('user.index', auth()->user()->id);
         } else {
             return redirect('deposits/create')->with('status-error', 'Сумма депозита меньше 10 или больше 100 единиц');
+        }
+    }
+
+    /**
+     * Charging Percent From Deposit To Wallet Method
+     *
+     * @param $depositID
+     */
+    public function chargingPercentFromDeposit($depositID)
+    {
+        $deposit = Deposits::findOrFail($depositID);
+
+        if ($deposit->active !== 0 && $deposit->duration !== 0) {
+            $duration = --$deposit->duration;
+            $accrue_times = ++$deposit->accrue_times;
+
+            $wallet = Wallet::findOrFail($deposit->wallet_id);
+            $accruePercent = ($deposit->invested / 100) * $deposit->percent;
+            $wallet->balance = $wallet->balance + $accruePercent;
+
+            (new WalletController())->increaseBalance($wallet->balance, $deposit->wallet_id);
+
+            if ($duration !== 0) {
+                //  Transaction
+                DB::transaction(
+                    function () use ($deposit, $duration, $accrue_times, $wallet, $accruePercent) {
+                        $deposit->fill(
+                            ['duration' => $duration, 'accrue_times' => $accrue_times]
+                        )->save();
+                        (new TransactionsController())->accrueTransaction($deposit, $wallet, $accruePercent);
+                    }
+                );
+            } else {
+                DB::transaction(
+                    function () use ($deposit, $duration, $accrue_times, $wallet) {
+                        $deposit->fill(
+                            ['active' => 0, 'duration' => $duration, 'accrue_times' => $accrue_times]
+                        )->save();
+
+                        (new TransactionsController())->closeDepositTransaction($deposit, $wallet);
+                    }
+                );
+            }
         }
     }
 }

@@ -17,8 +17,8 @@
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="sr-only">Email</label>
-                    <input type="number" name="invested" id="invested" min="0" value="0" step="0.01"
-                           pattern="^\d+(?:\.\d{1,2})?$" placeholder="Положить на депозит 0.00"
+                    <input type="number" name="invested" id="invested" min="0" value="0" step="0.001"
+                           pattern="^\d+(?:\.\d{1,3})?$" placeholder="Положить на депозит 0.00"
                            class="bg-gray-100 border-2 w-full p-4 rounded-lg"
                     >
                 </div>

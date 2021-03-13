@@ -32,4 +32,43 @@ class TransactionsController extends Controller
 
         return view('transactions.index', ['transactions' => $transactions]);
     }
+
+    /**
+     * Accrue Transaction
+     *
+     * @param $deposit
+     * @param $wallet
+     * @param $accruePercent
+     */
+    public function accrueTransaction($deposit, $wallet, $accruePercent)
+    {
+        Transactions::create(
+            [
+                'type' => 'accrue',
+                'user_id' => $deposit->user_id,
+                'deposit_id' => $deposit->id,
+                'wallet_id' => $wallet->id,
+                'amount' => $accruePercent,
+            ]
+        );
+    }
+
+    /**
+     * Close Deposit Transaction
+     *
+     * @param $deposit
+     * @param $wallet
+     */
+    public function closeDepositTransaction($deposit, $wallet)
+    {
+        Transactions::create(
+            [
+                'type' => 'close_deposit',
+                'user_id' => $deposit->user_id,
+                'deposit_id' => $deposit->id,
+                'wallet_id' => $wallet->id,
+                'amount' => $wallet->balance,
+            ]
+        );
+    }
 }

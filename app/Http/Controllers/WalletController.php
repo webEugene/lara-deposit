@@ -112,4 +112,16 @@ class WalletController extends Controller
         $wallet = Wallet::findOrFail($id);
         $wallet->fill(['balance' => $balance])->save();
     }
+
+    /**
+     * Increase wallet balance of current user
+     *
+     * @param $balance
+     * @param $id
+     */
+    public function increaseBalance($balance, $id)
+    {
+        $wallet = Wallet::findOrFail($id);
+        $wallet->fill(['balance' => $balance])->save();
+    }
 }

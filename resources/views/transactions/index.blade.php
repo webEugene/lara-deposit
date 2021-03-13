@@ -20,8 +20,25 @@
                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                     <td class="py-3 px-6 text-left whitespace-nowrap">{{ $transaction->id }}</td>
                     <td class="py-3 px-6 text-center">
-                        <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">{{ $transaction->type }}</span></td>
-                    <td class="py-3 px-6 text-center">${{ $transaction->amount }}</td>
+
+                        @switch($transaction->type)
+                            @case('create_deposit')
+                                <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ $transaction->type }}</span></td>
+                            @break
+
+                            @case('accrue')
+                                <span class="bg-blue-200 text-blue-600 py-1 px-3 rounded-full text-xs">{{ $transaction->type }}</span></td>
+                            @break
+
+                            @case('close_deposit')
+                                <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">{{ $transaction->type }}</span></td>
+                            @break
+
+                            @default
+                            <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">{{ $transaction->type }}</span></td>
+                        @endswitch
+
+                    <td class="py-3 px-6 text-center">{{ $transaction->amount }}</td>
                     <td class="py-3 px-6 text-center">{{ $transaction->created_at }}</td>
                 </tr>
                 @empty

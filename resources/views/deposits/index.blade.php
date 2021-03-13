@@ -22,10 +22,10 @@
                 @forelse($deposits as $deposit)
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                         <td class="py-3 px-6 text-left whitespace-nowrap">{{ $deposit->id }}</td>
-                        <td class="py-3 px-6 text-center">${{ $deposit->invested }}</td>
+                        <td class="py-3 px-6 text-center">{{ $deposit->invested }}</td>
                         <td class="py-3 px-6 text-center">{{ $deposit->percent }}%</td>
-                        <td class="py-3 px-6 text-center">{{ $deposit->duration }}</td>
                         <td class="py-3 px-6 text-center">{{ $deposit->accrue_times }}</td>
+                        <td class="py-3 px-6 text-center">{{ $deposit->duration }}</td>
                         <td class="py-3 px-6 text-center">
                             @if($deposit->active === 1)
                                 <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">открытый</span>
